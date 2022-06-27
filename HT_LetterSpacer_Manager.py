@@ -75,15 +75,8 @@ class LetterSpacerManager:
 			category_group.addButton = Button("auto", "Add rule", callback=self.add_font_setting)
 
 			stack_views = []
-
-			# for every setting in font_settings: add a group to the category group, using the key from the setting to
-			# find the group
-			# the group contains a title, a dropdown for the subcategory, a dropdown for the case, an editable text field
-			# for the value, a textfield for the reference glyph, a textfield for the filter
-			# the group has a button to remove the settin
-
 			for setting in self.font_settings[category]:
-				stack_views.append(dict(view=self.add_setting_group(category, setting)))
+				stack_views.append(dict(view=self.add_font_setting_group(category, setting)))
 
 			category_group.stackView = VerticalStackView("auto",
 			                                             views=stack_views,
@@ -203,7 +196,12 @@ class LetterSpacerManager:
 		self.w.open()
 		self.w.makeKey()
 
-	def add_setting_group(self, category, setting):
+	def add_font_setting_group(self, category, setting):
+		# return a group for the category group, using the key from the setting to find the group
+		# the group contains a title, a dropdown for the subcategory, a dropdown for the case, an editable text field
+		# for the value, a textfield for the reference glyph, a textfield for the filter
+		# the group has a button to remove the settin
+
 		# if the setting is empty, skip it
 		if len(self.font_settings[category][setting]) == 0:
 			return False
@@ -276,7 +274,8 @@ class LetterSpacerManager:
 		# find the stack view for the category
 		for category in self.categories:
 			if getattr(self.fontSettingsTab, category).addButton == sender:
-				getattr(self.fontSettingsTab, category).stackView.appendView(self.add_setting_group(category, setting_id))
+				getattr(self.fontSettingsTab, category).stackView.appendView(self.add_font_setting_group
+				                                                             (category, setting_id))
 				break
 
 		self.w.resize(584, 1)
